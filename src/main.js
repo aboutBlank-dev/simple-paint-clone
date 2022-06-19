@@ -8,38 +8,32 @@ let currentMousePos = {x: 0, y: 0};
 let drawing = false;
 
 let strokeSize = 3;
-let strokeColor = '#000000';
+let strokeColor = 'black';
 
 
-/** @type {HTMLCanvasElement} */
-const canvas = document.getElementById("myCanvas");
-const canvasContext = canvas.getContext('2d');
+const onMouseUpLeave = () => {
+  drawing = false;
+}
 
-function getCursorPosition(canvas, event) {
+const onMouseMove = (e) => {
+  updateMousePosition(getCursorPosition(canvas, e));
+  draw();
+}
+
+const onMouseDown = (e) => {
+  drawing = true;
+
+  updateMousePosition(getCursorPosition(canvas, e));
+  drawCircle(currentMousePos);
+  
+}
+
+const getCursorPosition = (canvas, event) => {
   const rect = canvas.getBoundingClientRect()
   const x = event.clientX - rect.left
   const y = event.clientY - rect.top
   return { x, y };
 }
-
-canvas.addEventListener('mouseleave', (event) => {
-  drawing = false;
-});
-
-canvas.addEventListener('mousedown', (e) => {
-  updateMousePosition(getCursorPosition(canvas, e));
-  drawCircle(currentMousePos);
-  drawing = true;
-})
-
-canvas.addEventListener('mousemove', (e) => {
-  updateMousePosition(getCursorPosition(canvas, e));
-  draw();
-});
-
-canvas.addEventListener('mouseup', (e) =>{
-  drawing = false;
-})
 
 const updateMousePosition = (position) => {
   previousMousePos = currentMousePos;
@@ -76,7 +70,18 @@ const drawLine = (fromPos, toPos) => {
   canvasContext.closePath();
 }
 
+/** @type {HTMLCanvasElement} */
+const canvas = document.getElementById("myCanvas");
+const canvasContext = canvas.getContext('2d');
 
-updateStrokeSize(6);
-updateStrokeColor('green');
+canvasContext.lineCap = "round";
+
+canvas.addEventListener('mouseup', onMouseUpLeave);
+canvas.addEventListener('mouseleave', onMouseUpLeave);
+canvas.addEventListener('mousedown', onMouseDown);
+canvas.addEventListener('mousemove', onMouseMove);
+
+updateStrokeSize(strokeSize);
+updateStrokeColor(strokeColor);
+
 
