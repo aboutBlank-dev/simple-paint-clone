@@ -1,4 +1,4 @@
-import '../dist/css/style.css';
+import './css/style.css';
 if (module.hot) {
   module.hot.accept();
 }
@@ -8,7 +8,7 @@ let currentMousePos = {x: 0, y: 0};
 let drawing = false;
 
 let strokeSize = 3;
-let strokeColor = 'black';
+let strokeColor = 'green';
 
 
 const onMouseUpLeave = () => {
@@ -70,16 +70,31 @@ const drawLine = (fromPos, toPos) => {
   canvasContext.closePath();
 }
 
+const clearCanvas = () => {
+  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 /** @type {HTMLCanvasElement} */
 const canvas = document.getElementById("myCanvas");
 const canvasContext = canvas.getContext('2d');
-
 canvasContext.lineCap = "round";
 
 canvas.addEventListener('mouseup', onMouseUpLeave);
 canvas.addEventListener('mouseleave', onMouseUpLeave);
 canvas.addEventListener('mousedown', onMouseDown);
 canvas.addEventListener('mousemove', onMouseMove);
+
+const colorButtonContainer = document.getElementById('color-btn-container');
+const colorButtons = colorButtonContainer.children;
+
+for(let i = 0; i < colorButtons.length; i++) {
+  colorButtons[i].addEventListener('click', () => {
+    updateStrokeColor(colorButtons[i].id);
+  });
+}
+
+const clearButton = document.getElementById('clear-btn');
+clearButton.addEventListener('click', clearCanvas);
 
 updateStrokeSize(strokeSize);
 updateStrokeColor(strokeColor);

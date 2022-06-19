@@ -1,0 +1,58 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#myCanvas {
+  margin: 10px auto;
+  border: 1px solid black;
+}
+
+.btn-container {
+  width: 90px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+
+  display: inline-flex;
+  justify-content: center;
+}
+
+.canvas-container {
+  display: inline-flex;
+  width: 500px;
+}
+
+.color-btn {
+  width: 30px;
+  height: 30px;
+}
+
+.color-btn.green {
+  background-color: green;
+}
+
+.color-btn.red {
+  background-color: red;
+}
+
+.color-btn.blue {
+  background-color: blue;
+}
+
+.color-btn.yellow {
+  background-color: yellow;
+}
+
+.color-btn.black {
+  background-color: black;
+}
+
+*.unselectable {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
