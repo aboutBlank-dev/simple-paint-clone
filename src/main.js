@@ -70,14 +70,29 @@ const drawLine = (fromPos, toPos) => {
   canvasContext.closePath();
 }
 
-const clearCanvas = () => {
+const resetCanvas = () => {
+  canvasContext.lineCap = "round";
   canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+  canvasContext.fillStyle = 'white';
+  canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+  canvasContext.fillStyle = strokeColor;
+  updateStrokeColor(strokeColor);
+}
+
+const downloadCurrentCanvas = () => {
+  const source = canvas.toDataURL('image/png');
+  var el = document.createElement("a");
+  el.setAttribute("href", source);
+  el.setAttribute("download", "MyPainting.png");
+  document.body.appendChild(el);
+  el.click();
+  el.remove();
 }
 
 /** @type {HTMLCanvasElement} */
 const canvas = document.getElementById("myCanvas");
 const canvasContext = canvas.getContext('2d');
-canvasContext.lineCap = "round";
 
 canvas.addEventListener('mouseup', onMouseUpLeave);
 canvas.addEventListener('mouseleave', onMouseUpLeave);
@@ -94,9 +109,11 @@ for(let i = 0; i < colorButtons.length; i++) {
 }
 
 const clearButton = document.getElementById('clear-btn');
-clearButton.addEventListener('click', clearCanvas);
+clearButton.addEventListener('click', resetCanvas);
 
+const donwloadButton = document.getElementById('download-btn');
+donwloadButton.addEventListener('click', downloadCurrentCanvas);
+
+resetCanvas();
 updateStrokeSize(strokeSize);
 updateStrokeColor(strokeColor);
-
-
